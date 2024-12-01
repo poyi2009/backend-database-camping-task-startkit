@@ -57,7 +57,7 @@ INSERT INTO "CREDIT_PACKAGE" (name, credit_amount, price) VALUES
     -- 2. `王小明` 購買 `21 堂組合包方案`
     -- 3. `好野人` 購買 `14 堂組合包方案`
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
-	(
+    (
         (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
         (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案'),
         (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案'),
@@ -88,9 +88,9 @@ INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, pr
     -- 2. 將用戶`肌肉棒子`新增為教練，並且年資設定為2年
     -- 3. 將用戶`Q太郎`新增為教練，並且年資設定為2年
 INSERT INTO "COACH" (user_id, experience_years) VALUES
-	((SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io'), 2),
-	((SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io'), 2),
-	((SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io'), 2);
+    ((SELECT id FROM "USER" WHERE email = 'lee2000@hexschooltest.io'), 2),
+    ((SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io'), 2),
+    ((SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io'), 2);
 -- 3-2. 新增：承1，為三名教練新增專長資料至 `COACH_LINK_SKILL` ，資料需求如下：
     -- 1. 所有教練都有 `重訓` 專長
     -- 2. 教練`肌肉棒子` 需要有 `瑜伽` 專長
@@ -103,7 +103,7 @@ INSERT INTO "COACH_LINK_SKILL" (coach_id, skill_id) VALUES
 	(
 		(SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'muscle@hexschooltest.io')),
 		(SELECT id FROM "SKILL" WHERE name = '重訓')
-	),
+    ),
     (
 		(SELECT id FROM "COACH" WHERE user_id = (SELECT id FROM "USER" WHERE email = 'starplatinum@hexschooltest.io')),
 		(SELECT id FROM "SKILL" WHERE name = '重訓')
@@ -226,8 +226,8 @@ WHERE user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
 GROUP BY user_id;
 -- 5-7. 查詢：計算用戶王小明的已使用堂數，顯示須包含以下欄位： user_id , total。 (需使用到 Count 函式與 Group By)
 SELECT
-	user_id,
-	COUNT(*) AS total
+    user_id,
+    COUNT(*) AS total
 FROM "COURSE_BOOKING"
 WHERE join_at IS NOT NULL
 AND user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
@@ -239,24 +239,24 @@ GROUP BY user_id;
     -- inner join ( 用戶王小明的已使用堂數) as "COURSE_BOOKING"
     -- on "COURSE_BOOKING".user_id = "CREDIT_PURCHASE".user_id;
 SELECT
-	"TOTAL_CREDIT".user_id AS user_id,
-	(total_credit - used_credit) AS remaining_credit
+    "TOTAL_CREDIT".user_id AS user_id,
+    (total_credit - used_credit) AS remaining_credit
 FROM (
-	SELECT
-		user_id,
-		SUM(purchased_credits) AS total_credit
-	FROM "CREDIT_PURCHASE"
-	WHERE user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
-	GROUP BY user_id
+    SELECT
+        user_id,
+        SUM(purchased_credits) AS total_credit
+    FROM "CREDIT_PURCHASE"
+    WHERE user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
+    GROUP BY user_id
 ) AS "TOTAL_CREDIT"
 INNER JOIN (
-	SELECT
+    SELECT
         user_id,
         COUNT(*) AS used_credit
 	FROM "COURSE_BOOKING"
-	WHERE join_at IS NOT NULL
-	and user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
-	GROUP BY user_id
+    WHERE join_at IS NOT NULL
+    AND user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
+    GROUP BY user_id
 ) AS "USED_CREDIT"
     ON "TOTAL_CREDIT".user_id = "USED_CREDIT".user_id;
 
