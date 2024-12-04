@@ -229,7 +229,7 @@ SELECT
     user_id,
     COUNT(*) AS total
 FROM "COURSE_BOOKING"
-WHERE join_at IS NOT NULL
+WHERE status != '課程已取消' --已預約跟上課中都算是使用
 AND user_id = (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io')
 GROUP BY user_id;
 -- 5-8. [挑戰題] 查詢：請在一次查詢中，計算用戶王小明的剩餘可用堂數，顯示須包含以下欄位： user_id , remaining_credit
@@ -300,13 +300,13 @@ GROUP BY "CREDIT_PACKAGE".name;
 -- 6-4. 查詢：計算 11 月份總營收（使用 purchase_at 欄位統計）
 -- 顯示須包含以下欄位： 總營收
 SELECT
-    SUM(price_paid) AS "11月總營收"
+    SUM(price_paid) AS "總營收"
 FROM "CREDIT_PURCHASE"
 WHERE EXTRACT(month FROM purchase_at) = 11;
 -- 6-5. 查詢：計算 11 月份有預約課程的會員人數（需使用 Distinct，並用 created_at 和 status 欄位統計）
 -- 顯示須包含以下欄位： 預約會員人數
 SELECT
-    COUNT(DISTINCT(user_id)) AS "11月預約會員人數"
+    COUNT(DISTINCT(user_id)) AS "預約會員人數"
 FROM "COURSE_BOOKING"
 WHERE status != '課程已取消'
 AND EXTRACT(month FROM created_at) = 11;
