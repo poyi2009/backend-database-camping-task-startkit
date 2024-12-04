@@ -58,19 +58,19 @@ INSERT INTO "CREDIT_PACKAGE" (name, credit_amount, price) VALUES
     -- 3. `好野人` 購買 `14 堂組合包方案`
 INSERT INTO "CREDIT_PURCHASE" (user_id, credit_package_id, purchased_credits, price_paid) VALUES
     (
-        (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
+        (SELECT id FROM "USER" WHERE name = '王小明'),
         (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案'),
         (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案'),
         (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案')
     ),
     (
-        (SELECT id FROM "USER" WHERE email = 'wXlTq@hexschooltest.io'),
+        (SELECT id FROM "USER" WHERE name = '王小明'),
         (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '21堂組合包方案'),
         (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '21堂組合包方案'),
         (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '21堂組合包方案')
     ),
     (
-        (SELECT id FROM "USER" WHERE email = 'richman@hexschooltest.io'),
+        (SELECT id FROM "USER" WHERE name = '好野人'),
         (SELECT id FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案'),
         (SELECT credit_amount FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案'),
         (SELECT price FROM "CREDIT_PACKAGE" WHERE name = '14堂組合包方案')
